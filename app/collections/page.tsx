@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
+import { PageTransition } from '@/components/ui/animations/PageTransition';
+import { FadeIn } from '@/components/ui/animations/FadeIn';
+import { SizeGuide } from '@/components/ui/SizeGuide';
 
 const categories = [
   {
@@ -45,21 +48,21 @@ const dummyProducts = {
       id: '1',
       name: 'Classic School Uniform Set',
       price: `KSH ${Math.round(89.99 * conversionRate)}`,
-      image: '/images/school-uniform.jpg',
+      image: '/images/sports/jersey18.webp',
       rating: 4.5,
     },
     {
       id: '2',
       name: 'Premium Blazer',
       price: `KSH ${Math.round(129.99 * conversionRate)}`,
-      image: '/images/blazer.jpg',
+      image: '/images/sports/jersey23.webp',
       rating: 4.7,
     },
     {
       id: '3',
       name: 'School Sports Kit',
       price: `KSH ${Math.round(79.99 * conversionRate)}`,
-      image: '/images/sports-kit.jpg',
+      image: '/images/sports/jersey5.webp',
       rating: 4.3,
     }
   ],
@@ -68,7 +71,7 @@ const dummyProducts = {
       id: '4',
       name: 'Security Guard Complete Set',
       price: `KSH ${Math.round(149.99 * conversionRate)}`,
-      image: '/images/security-uniform.jpg',
+      image: '/images/security/security 1.avif',
       rating: 4.6,
     },
     {
@@ -112,70 +115,50 @@ const dummyProducts = {
 };
 
 export default function Collections() {
-  const [activeCategory, setActiveCategory] = useState('all')
-
-  const filteredCategories = activeCategory === 'all' 
-    ? categories 
-    : categories.filter(cat => cat.id === activeCategory)
-
   return (
-    <div className="py-8">
-      <div className="main-container">
-        <h1 className="text-4xl font-bold text-center mb-8">Our Collections</h1>
-        
-        {/* Category Filter */}
-        <div className="flex justify-center space-x-4 mb-12">
-          <button
-            onClick={() => setActiveCategory('all')}
-            className={`px-4 py-2 rounded-md transition-colors ${
-              activeCategory === 'all' 
-                ? 'bg-blue-900 text-white' 
-                : 'bg-gray-100 hover:bg-gray-200'
-            }`}
-          >
-            All
-          </button>
-          {categories.map((cat) => (
-            <Link 
-              key={cat.id}
-              href={`/collections/${cat.id}/catalog`}
-              className={`px-4 py-2 rounded-md transition-colors ${
-                activeCategory === cat.id 
-                  ? 'bg-blue-900 text-white' 
-                  : 'bg-gray-100 hover:bg-gray-200'
-              }`}
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
+    <PageTransition>
+      <div className="container mx-auto px-4 py-8">
+        <FadeIn delay={0.2} direction="up">
+          <h1 className="text-4xl font-bold mb-8 text-center">Our Collections</h1>
+        </FadeIn>
 
-        {/* Collections Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCategories.map((category) => (
-            <div key={category.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="p-6">
-                <h2 className="text-2xl font-semibold mb-2">{category.name}</h2>
-                <p className="text-gray-600 mb-4">{category.description}</p>
-                <div className="space-y-2">
-                  {dummyProducts[category.id].map((product) => (
-                    <div key={product.id} className="flex justify-between items-center py-2 border-b">
-                      <span>{product.name}</span>
-                      <span className="font-semibold">{product.price}</span>
+          {categories.map((category, index) => (
+            <FadeIn key={category.id} delay={0.1 * (index + 1)} direction="up">
+              <Link href={`/collections/${category.id}`}>
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div className="relative h-64">
+                    <Image
+                      src={`/images/${category.id}-uniform.jpg`}
+                      alt={category.name}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      className="transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h2 className="text-2xl font-semibold mb-2">{category.name}</h2>
+                    <p className="text-gray-600 mb-4">{category.description}</p>
+                    <div className="space-y-2">
+                      {category.items.map((item, idx) => (
+                        <div key={idx} className="flex justify-between items-center">
+                          <span className="text-sm text-gray-700">{item.name}</span>
+                          <span className="text-sm font-medium text-gray-900">{item.price}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                    <div className="mt-4">
+                      <SizeGuide isOpen={false} onClose={function (): void {
+                        throw new Error('Function not implemented.');
+                      } } category={''} />
+                    </div>
+                  </div>
                 </div>
-                <Link 
-                  href={`/collections/${category.id}/catalog`} 
-                  className="btn-primary w-full mt-6 inline-block text-center"
-                >
-                  View Collection
-                </Link>
-              </div>
-            </div>
+              </Link>
+            </FadeIn>
           ))}
         </div>
       </div>
-    </div>
-  )
+    </PageTransition>
+  );
 }

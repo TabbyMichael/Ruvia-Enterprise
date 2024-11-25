@@ -20,17 +20,17 @@ const generateProducts = (category: string): Product[] => {
       {
         baseName: 'School Uniform Set',
         basePrice: `KSH ${Math.round(89.99 * conversionRate)}`,
-        baseImage: '/images/school-uniform.jpg',
+        baseImage: '/public/images/school/girl boy.avif',
       },
       {
         baseName: 'Premium Blazer',
         basePrice: `KSH ${Math.round(129.99 * conversionRate)}`,
-        baseImage: '/images/blazer.jpg',
+        baseImage: '/public/images/school/blazer 2.avif',
       },
       {
         baseName: 'School Sports Kit',
         basePrice: `KSH ${Math.round(79.99 * conversionRate)}`,
-        baseImage: '/images/sports-kit.jpg',
+        baseImage: '/public/images/sports/jersey 1.webp',
       }
     ],
     'security': [
@@ -54,17 +54,17 @@ const generateProducts = (category: string): Product[] => {
       {
         baseName: 'Team Training Uniform',
         basePrice: `KSH ${Math.round(89.99 * conversionRate)}`,
-        baseImage: '/images/team-uniform.jpg',
+        baseImage: '/public/images/sports/jersey 1.webp',
       },
       {
         baseName: 'Athletic Performance Shirt',
         basePrice: `KSH ${Math.round(59.99 * conversionRate)}`,
-        baseImage: '/images/performance-shirt.jpg',
+        baseImage: '/public/images/sports/jersey 2.webp',
       },
       {
         baseName: 'Sports Compression Shorts',
         basePrice: `KSH ${Math.round(44.99 * conversionRate)}`,
-        baseImage: '/images/compression-shorts.jpg',
+        baseImage: '/public/images/sports/jersey 4.webp',
       }
     ]
   }[category];

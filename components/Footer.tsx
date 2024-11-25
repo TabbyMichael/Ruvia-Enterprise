@@ -50,9 +50,9 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Categories</h3>
           <ul className="space-y-2">
-            <li><Link href="/collections?category=school" className="text-gray-400 hover:text-white">School Uniforms</Link></li>
-            <li><Link href="/collections?category=security" className="text-gray-400 hover:text-white">Security Uniforms</Link></li>
-            <li><Link href="/collections?category=sports" className="text-gray-400 hover:text-white">Sports Uniforms</Link></li>
+            <li><Link href="/collections/school/catalog" className="text-gray-400 hover:text-white">School Uniforms</Link></li>
+            <li><Link href="/collections/security/catalog" className="text-gray-400 hover:text-white">Security Uniforms</Link></li>
+            <li><Link href="/collections/sports/catalog" className="text-gray-400 hover:text-white">Sports Uniforms</Link></li>
             <li><Link href="/custom-orders" className="text-gray-400 hover:text-white">Custom Orders</Link></li>
           </ul>
         </div>

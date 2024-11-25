@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link';
+
 export default function About() {
   return (
     <div className="py-8">
@@ -58,9 +60,9 @@ export default function About() {
           <h2 className="text-3xl font-semibold text-center mb-8">Our Leadership Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: 'John Smith', role: 'CEO', bio: 'Over 20 years of experience in textile manufacturing.' },
-              { name: 'Sarah Johnson', role: 'Head of Design', bio: 'Award-winning designer with focus on functional fashion.' },
-              { name: 'Michael Chen', role: 'Operations Director', bio: 'Expert in sustainable manufacturing practices.' },
+              { name: 'Ruth Muthoni Smith', role: 'CEO', bio: 'Over 20 years of experience in textile manufacturing.' },
+              { name: 'Mercy Wangui', role: 'Head of Design', bio: 'Award-winning designer with focus on functional fashion.' },
+              { name: 'David Kibugu', role: 'Operations Director', bio: 'Expert in sustainable manufacturing practices.' },
             ].map((member, index) => (
               <div key={index} className="text-center">
                 <div className="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4"></div>
@@ -79,8 +81,12 @@ export default function About() {
             Discover our premium uniform collections or create your custom design today.
           </p>
           <div className="flex justify-center space-x-4">
-            <button className="btn-primary">View Collections</button>
-            <button className="btn-secondary">Contact Us</button>
+            <Link href="/collections" className="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+              View Collections
+            </Link>
+            <Link href="/contact" className="inline-block px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors">
+              Contact Us
+            </Link>
           </div>
         </div>
       </div>
