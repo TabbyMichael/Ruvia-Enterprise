@@ -8,9 +8,9 @@ export default function Header() {
 
   const navigation = [
     { name: 'Collections', href: '/collections' },
-    { name: 'School', href: '/collections?category=school' },
-    { name: 'Security', href: '/collections?category=security' },
-    { name: 'Sports', href: '/collections?category=sports' },
+    { name: 'School', href: '/collections/school/catalog' },
+    { name: 'Security', href: '/collections/security/catalog' },
+    { name: 'Sports', href: '/collections/sports/catalog' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ]

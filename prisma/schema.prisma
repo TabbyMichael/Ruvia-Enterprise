@@ -1,0 +1,74 @@
+// This is your Prisma schema file
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  slug        String    @unique
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  name        String
+  description String
+  price       Decimal       @db.Decimal(10, 2)
+  images      String[]
+  category    Category      @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  variants    Variant[]
+  sizeGuide   SizeGuide?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Variant {
+  id        String   @id @default(cuid())
+  size      String
+  color     String
+  stock     Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, size, color])
+}
+
+model SizeGuide {
+  id          String   @id @default(cuid())
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   String   @unique
+  measurements Json    // Store size measurements as JSON
+  instructions String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CustomDesign {
+  id          String   @id @default(cuid())
+  productId   String
+  designData  Json     // Store design configuration as JSON
+  previewUrl  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BulkOrder {
+  id          String   @id @default(cuid())
+  orderItems  Json     // Store order items as JSON
+  totalAmount Decimal  @db.Decimal(10, 2)
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
