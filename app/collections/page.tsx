@@ -125,7 +125,7 @@ export default function Collections() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category, index) => (
             <FadeIn key={category.id} delay={0.1 * (index + 1)} direction="up">
-              <Link href={`/collections/${category.id}`}>
+              <Link href={`/collections/${category.id}/catalog`}>
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                   <div className="relative h-64">
                     <Image
