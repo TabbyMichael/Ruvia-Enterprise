@@ -71,7 +71,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {categories.map((category, index) => (
                 <FadeIn key={category.name} delay={0.1 * (index + 1)} direction="up">
-                  <Link href={`/collections/${category.id}`}>
+                  <Link href={`/collections/${category.id}/catalog`}>
                     <div className="relative h-96 group overflow-hidden rounded-lg">
                       <Image
                         src={category.image}
