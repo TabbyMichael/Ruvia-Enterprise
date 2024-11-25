@@ -7,61 +7,63 @@ import { useParams } from 'next/navigation';
 interface Product {
   id: string;
   name: string;
-  price: number;
+  price: string;
   image: string;
   rating: number;
 }
+
+const conversionRate = 40;
 
 const generateProducts = (category: string): Product[] => {
   const baseProducts = {
     'school': [
       {
         baseName: 'School Uniform Set',
-        basePrice: 89.99,
+        basePrice: `KSH ${Math.round(89.99 * conversionRate)}`,
         baseImage: '/images/school-uniform.jpg',
       },
       {
         baseName: 'Premium Blazer',
-        basePrice: 129.99,
+        basePrice: `KSH ${Math.round(129.99 * conversionRate)}`,
         baseImage: '/images/blazer.jpg',
       },
       {
         baseName: 'School Sports Kit',
-        basePrice: 79.99,
+        basePrice: `KSH ${Math.round(79.99 * conversionRate)}`,
         baseImage: '/images/sports-kit.jpg',
       }
     ],
     'security': [
       {
         baseName: 'Security Guard Set',
-        basePrice: 149.99,
+        basePrice: `KSH ${Math.round(149.99 * conversionRate)}`,
         baseImage: '/images/security-uniform.jpg',
       },
       {
         baseName: 'Professional Jacket',
-        basePrice: 99.99,
+        basePrice: `KSH ${Math.round(99.99 * conversionRate)}`,
         baseImage: '/images/security-jacket.jpg',
       },
       {
         baseName: 'Security Patrol Pants',
-        basePrice: 69.99,
+        basePrice: `KSH ${Math.round(69.99 * conversionRate)}`,
         baseImage: '/images/security-pants.jpg',
       }
     ],
     'sports': [
       {
         baseName: 'Team Training Uniform',
-        basePrice: 89.99,
+        basePrice: `KSH ${Math.round(89.99 * conversionRate)}`,
         baseImage: '/images/team-uniform.jpg',
       },
       {
         baseName: 'Athletic Performance Shirt',
-        basePrice: 59.99,
+        basePrice: `KSH ${Math.round(59.99 * conversionRate)}`,
         baseImage: '/images/performance-shirt.jpg',
       },
       {
         baseName: 'Sports Compression Shorts',
-        basePrice: 44.99,
+        basePrice: `KSH ${Math.round(44.99 * conversionRate)}`,
         baseImage: '/images/compression-shorts.jpg',
       }
     ]
@@ -72,7 +74,7 @@ const generateProducts = (category: string): Product[] => {
     return {
       id: `${category}-${index + 1}`,
       name: `${baseProduct.baseName} ${index + 1}`,
-      price: baseProduct.basePrice + (Math.floor(index / 3) * 5),
+      price: `KSH ${Math.round(Number(baseProduct.basePrice.replace('KSH ', '')) + (Math.floor(index / 3) * 5 * conversionRate))}`,
       image: baseProduct.baseImage,
       rating: Math.min(5, 3 + Math.random()),
     };
@@ -86,20 +88,20 @@ export default function CatalogPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('featured');
-  const [priceFilter, setPriceFilter] = useState({ min: 0, max: 1000 });
+  const [priceFilter, setPriceFilter] = useState({ min: 0, max: 1000 * conversionRate });
   const productsPerPage = 12;
 
   // Filtering and Sorting
   const filteredProducts = allProducts.filter(
-    product => product.price >= priceFilter.min && product.price <= priceFilter.max
+    product => Number(product.price.replace('KSH ', '')) >= priceFilter.min && Number(product.price.replace('KSH ', '')) <= priceFilter.max
   );
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch(sortBy) {
       case 'price-low':
-        return a.price - b.price;
+        return Number(a.price.replace('KSH ', '')) - Number(b.price.replace('KSH ', ''));
       case 'price-high':
-        return b.price - a.price;
+        return Number(b.price.replace('KSH ', '')) - Number(a.price.replace('KSH ', ''));
       case 'rating':
         return b.rating - a.rating;
       default:
@@ -141,14 +143,14 @@ export default function CatalogPage() {
               type="number" 
               placeholder="Min" 
               value={priceFilter.min}
-              onChange={(e) => setPriceFilter(prev => ({ ...prev, min: Number(e.target.value) }))}
+              onChange={(e) => setPriceFilter(prev => ({ ...prev, min: Number(e.target.value) }))} 
               className="w-20 border rounded-md px-2 py-1"
             />
             <input 
               type="number" 
               placeholder="Max" 
               value={priceFilter.max}
-              onChange={(e) => setPriceFilter(prev => ({ ...prev, max: Number(e.target.value) }))}
+              onChange={(e) => setPriceFilter(prev => ({ ...prev, max: Number(e.target.value) }))} 
               className="w-20 border rounded-md px-2 py-1"
             />
           </div>
@@ -168,7 +170,7 @@ export default function CatalogPage() {
                 className="object-cover rounded-md mb-4 w-full h-48"
               />
               <h2 className="text-lg font-medium">{product.name}</h2>
-              <p className="text-gray-600 font-semibold">${product.price.toFixed(2)}</p>
+              <p className="text-gray-600 font-semibold">{product.price}</p>
               <div className="flex items-center mt-2">
                 <span className="text-yellow-500">{'★'.repeat(Math.round(product.rating))}</span>
                 <span className="ml-2 text-sm text-gray-500">({product.rating.toFixed(1)})</span>
