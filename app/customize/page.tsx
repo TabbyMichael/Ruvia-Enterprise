@@ -28,7 +28,7 @@ const CustomOrderPage = () => {
 
   return (
     <div className="max-w-lg mx-auto px-4 py-12 bg-white shadow-lg rounded-lg">
-      <h1 className="text-3xl font-bold text-center mb-6 text-indigo-600">Custom Order</h1>
+      <h1 className="text-3xl font-bold text-center mb-6 text-black">Custom Order</h1>
       <form onSubmit={handleSubmit} className="space-y-4 p-8">
         <div>
           <label className="block text-sm font-medium text-gray-700">Product</label>
