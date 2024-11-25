@@ -10,9 +10,9 @@ const categories = [
     name: 'School Uniforms',
     description: 'Professional and comfortable uniforms for educational institutions',
     items: [
-      { name: 'Classic School Uniform Set', price: '$89.99' },
-      { name: 'Premium Blazer', price: '$129.99' },
-      { name: 'School Sports Kit', price: '$79.99' },
+      { name: 'Classic School Uniform Set', price: '' },
+      { name: 'Premium Blazer', price: '' },
+      { name: 'School Sports Kit', price: '' },
     ]
   },
   {
@@ -20,9 +20,9 @@ const categories = [
     name: 'Security Uniforms',
     description: 'Durable and professional security personnel attire',
     items: [
-      { name: 'Security Guard Complete Set', price: '$149.99' },
-      { name: 'Professional Security Jacket', price: '$99.99' },
-      { name: 'Security Patrol Pants', price: '$69.99' },
+      { name: 'Security Guard Complete Set', price: '' },
+      { name: 'Professional Security Jacket', price: '' },
+      { name: 'Security Patrol Pants', price: '' },
     ]
   },
   {
@@ -30,33 +30,35 @@ const categories = [
     name: 'Sports Uniforms',
     description: 'High-performance sportswear for teams and athletes',
     items: [
-      { name: 'Team Training Uniform', price: '$89.99' },
-      { name: 'Athletic Performance Shirt', price: '$59.99' },
-      { name: 'Training Uniform', price: '$59.99' },
+      { name: 'Team Training Uniform', price: '' },
+      { name: 'Athletic Performance Shirt', price: '' },
+      { name: 'Training Uniform', price: '' },
     ]
   }
 ]
+
+const conversionRate = 40;
 
 const dummyProducts = {
   'school': [
     {
       id: '1',
       name: 'Classic School Uniform Set',
-      price: 89.99,
+      price: `KSH ${Math.round(89.99 * conversionRate)}`,
       image: '/images/school-uniform.jpg',
       rating: 4.5,
     },
     {
       id: '2',
       name: 'Premium Blazer',
-      price: 129.99,
+      price: `KSH ${Math.round(129.99 * conversionRate)}`,
       image: '/images/blazer.jpg',
       rating: 4.7,
     },
     {
       id: '3',
       name: 'School Sports Kit',
-      price: 79.99,
+      price: `KSH ${Math.round(79.99 * conversionRate)}`,
       image: '/images/sports-kit.jpg',
       rating: 4.3,
     }
@@ -65,21 +67,21 @@ const dummyProducts = {
     {
       id: '4',
       name: 'Security Guard Complete Set',
-      price: 149.99,
+      price: `KSH ${Math.round(149.99 * conversionRate)}`,
       image: '/images/security-uniform.jpg',
       rating: 4.6,
     },
     {
       id: '5',
       name: 'Professional Security Jacket',
-      price: 99.99,
+      price: `KSH ${Math.round(99.99 * conversionRate)}`,
       image: '/images/security-jacket.jpg',
       rating: 4.4,
     },
     {
       id: '6',
       name: 'Security Patrol Pants',
-      price: 69.99,
+      price: `KSH ${Math.round(69.99 * conversionRate)}`,
       image: '/images/security-pants.jpg',
       rating: 4.2,
     }
@@ -88,21 +90,21 @@ const dummyProducts = {
     {
       id: '7',
       name: 'Team Training Uniform',
-      price: 89.99,
+      price: `KSH ${Math.round(89.99 * conversionRate)}`,
       image: '/images/team-uniform.jpg',
       rating: 4.5,
     },
     {
       id: '8',
       name: 'Athletic Performance Shirt',
-      price: 59.99,
+      price: `KSH ${Math.round(59.99 * conversionRate)}`,
       image: '/images/performance-shirt.jpg',
       rating: 4.7,
     },
     {
       id: '9',
       name: 'Sports Compression Shorts',
-      price: 44.99,
+      price: `KSH ${Math.round(44.99 * conversionRate)}`,
       image: '/images/compression-shorts.jpg',
       rating: 4.3,
     }
@@ -159,7 +161,7 @@ export default function Collections() {
                   {dummyProducts[category.id].map((product) => (
                     <div key={product.id} className="flex justify-between items-center py-2 border-b">
                       <span>{product.name}</span>
-                      <span className="font-semibold">${product.price.toFixed(2)}</span>
+                      <span className="font-semibold">{product.price}</span>
                     </div>
                   ))}
                 </div>
