@@ -61,9 +61,9 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Contact</h3>
           <ul className="space-y-2 text-gray-400">
-            <li>123 Business Street</li>
-            <li>City, State 12345</li>
-            <li>Phone: +1 (234) 567-890</li>
+            <li>31515 Ngara</li>
+            <li>City, Nairobi 31515</li>
+            <li>Phone: +254 (712) 718-863</li>
             <li>Email: info@ruvia.com</li>
           </ul>
         </div>
