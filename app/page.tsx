@@ -16,7 +16,7 @@ export default function Home() {
             <Link href="/collections" className="btn-primary text-lg px-8 py-4">
               View Collections
             </Link>
-            <Link href="/custom-order" className="btn-secondary text-lg px-8 py-4">
+            <Link href="/customize" className="btn-secondary text-lg px-8 py-4">
               Custom Order
             </Link>
           </div>
