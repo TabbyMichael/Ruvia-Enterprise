@@ -10,6 +10,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { PageTransition } from '@/components/ui/animations/PageTransition';
 import React, { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 
 const container = {
   hidden: { opacity: 0 },
@@ -25,6 +26,12 @@ const item = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 }
 };
+
+// Dynamically import the CollectionsContent component with no SSR
+const CollectionsContent = dynamic(
+  () => import('@/components/collections/CollectionsContent'),
+  { ssr: false }
+);
 
 export default function CollectionsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

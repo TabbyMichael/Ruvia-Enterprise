@@ -60,7 +60,7 @@ export default function About() {
           <h2 className="text-3xl font-semibold text-center mb-8">Our Leadership Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: 'Ruth Muthoni Smith', role: 'CEO', bio: 'Over 20 years of experience in textile manufacturing.' },
+              { name: 'Ruth Muthoni', role: 'CEO', bio: 'Over 20 years of experience in textile manufacturing.' },
               { name: 'Mercy Wangui', role: 'Head of Design', bio: 'Award-winning designer with focus on functional fashion.' },
               { name: 'David Kibugu', role: 'Operations Director', bio: 'Expert in sustainable manufacturing practices.' },
             ].map((member, index) => (
