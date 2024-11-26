@@ -9,6 +9,7 @@ import GoogleButton from 'react-google-button';
 import { FaPhone } from 'react-icons/fa';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 
 type AuthMode = 'signIn' | 'signUp' | 'phone';
 

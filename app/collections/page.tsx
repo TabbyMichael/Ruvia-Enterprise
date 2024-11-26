@@ -11,6 +11,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { PageTransition } from '@/components/ui/animations/PageTransition';
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 
 const container = {
   hidden: { opacity: 0 },
