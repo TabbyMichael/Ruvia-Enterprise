@@ -38,6 +38,7 @@ export default function CollectionsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { data: collections, error, execute } = useAsync<any[]>();
   const { isLoading, startLoading, stopLoading } = useLoadingState();
+  const searchParams = useSearchParams();
 
   // Simulated fetch function - replace with actual API call
   const fetchCollections = async () => {

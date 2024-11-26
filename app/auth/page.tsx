@@ -27,6 +27,7 @@ export default function AuthPage() {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const { isLoading, startLoading, stopLoading } = useLoadingState();
+  const searchParams = useSearchParams();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
