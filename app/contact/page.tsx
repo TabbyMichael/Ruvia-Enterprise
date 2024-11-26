@@ -58,7 +58,7 @@ export default function Contact() {
         <div className="main-container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Visit Us Card */}
-            <div className="bg-white rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition-transform duration-300">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
                 <FiMapPin className="w-8 h-8 text-blue-900" />
               </div>
@@ -71,19 +71,19 @@ export default function Contact() {
             </div>
 
             {/* Call Us Card */}
-            <div className="bg-white rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition-transform duration-300">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
                 <FiPhone className="w-8 h-8 text-blue-900" />
               </div>
               <h3 className="text-xl font-semibold text-center mb-4">Call Us</h3>
               <p className="text-gray-600 text-center">
                 <a href="tel:+254712718863" className="hover:text-blue-900">+254 712 718 863</a><br />
-                <a href="tel:+254701740280" className="hover:text-blue-900">+254 701 740 280</a>
+                <a href="tel:+254758149705" className="hover:text-blue-900">+254 758 149 705</a>
               </p>
             </div>
 
             {/* Business Hours Card */}
-            <div className="bg-white rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition-transform duration-300">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
                 <FiClock className="w-8 h-8 text-blue-900" />
               </div>
