@@ -9,7 +9,7 @@ import { useLoadingState } from '@/hooks/useLoadingState';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { PageTransition } from '@/components/ui/animations/PageTransition';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const container = {
   hidden: { opacity: 0 },
@@ -87,53 +87,48 @@ export default function CollectionsPage() {
   };
 
   return (
-    <>
-      {isLoading && <LoadingSpinner size="large" />}
+    <Suspense fallback={<LoadingSpinner size="large" />}>
       <PageTransition>
-        <div className="container mx-auto px-4 py-8">
-          <motion.h1 
-            className="text-4xl font-bold text-center mb-12"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Our Collections
-          </motion.h1>
-
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={container}
-            initial="hidden"
-            animate="show"
-          >
-            {collections.map((collection) => (
-              <motion.div
-                key={collection.id}
-                variants={item}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link href={`/collections/${collection.id}/catalog`}>
-                  <div className="relative h-96 group overflow-hidden rounded-lg shadow-lg">
-                    <Image
-                      src={collection.image}
-                      alt={collection.name}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      className="transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 transition-opacity group-hover:opacity-90" />
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                      <h2 className="text-2xl font-bold mb-2">{collection.name}</h2>
-                      <p className="text-sm opacity-90">{collection.description}</p>
+        <motion.div variants={container} initial="hidden" animate="show">
+          <div className="container mx-auto px-4 py-8">
+            <motion.h1 
+              className="text-4xl font-bold text-center mb-12"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Our Collections
+            </motion.h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {collections.map((collection) => (
+                <motion.div
+                  key={collection.id}
+                  variants={item}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link href={`/collections/${collection.id}/catalog`}>
+                    <div className="relative h-96 group overflow-hidden rounded-lg shadow-lg">
+                      <Image
+                        src={collection.image}
+                        alt={collection.name}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        className="transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 transition-opacity group-hover:opacity-90" />
+                      <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                        <h2 className="text-2xl font-bold mb-2">{collection.name}</h2>
+                        <p className="text-sm opacity-90">{collection.description}</p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </PageTransition>
-    </>
+    </Suspense>
   );
 }

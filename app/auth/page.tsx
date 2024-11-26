@@ -7,6 +7,7 @@ import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import GoogleButton from 'react-google-button';
 import { FaPhone } from 'react-icons/fa';
+import { Suspense } from 'react';
 
 type AuthMode = 'signIn' | 'signUp' | 'phone';
 
@@ -42,7 +43,7 @@ export default function AuthPage() {
   };
 
   return (
-    <>
+    <Suspense fallback={<LoadingSpinner size="large" />}>
       {isLoading && <LoadingSpinner size="large" />}
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
         <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
@@ -211,6 +212,6 @@ export default function AuthPage() {
           )}
         </div>
       </div>
-    </>
+    </Suspense>
   );
 }
