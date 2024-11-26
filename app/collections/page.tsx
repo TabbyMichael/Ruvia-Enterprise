@@ -27,12 +27,6 @@ const item = {
   show: { opacity: 1, y: 0 }
 };
 
-// Dynamically import the CollectionsContent component with no SSR
-const CollectionsContent = dynamic(
-  () => import('@/components/collections/CollectionsContent'),
-  { ssr: false }
-);
-
 // Dynamically import the CollectionsWrapper component with no SSR
 const CollectionsWrapper = dynamic(
   () => import('@/components/collections/CollectionsWrapper'),
@@ -102,48 +96,47 @@ export default function CollectionsPage() {
   return (
     <Suspense fallback={<LoadingSpinner size="large" />}>
       <CollectionsWrapper />
-        <PageTransition>
-          <motion.div variants={container} initial="hidden" animate="show">
-            <div className="container mx-auto px-4 py-8">
-              <motion.h1 
-                className="text-4xl font-bold text-center mb-12"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                Our Collections
-              </motion.h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {collections.map((collection) => (
-                  <motion.div
-                    key={collection.id}
-                    variants={item}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Link href={`/collections/${collection.id}/catalog`}>
-                      <div className="relative h-96 group overflow-hidden rounded-lg shadow-lg">
-                        <Image
-                          src={collection.image}
-                          alt={collection.name}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          className="transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 transition-opacity group-hover:opacity-90" />
-                        <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                          <h2 className="text-2xl font-bold mb-2">{collection.name}</h2>
-                          <p className="text-sm opacity-90">{collection.description}</p>
-                        </div>
+      <PageTransition>
+        <motion.div variants={container} initial="hidden" animate="show">
+          <div className="container mx-auto px-4 py-8">
+            <motion.h1 
+              className="text-4xl font-bold text-center mb-12"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Our Collections
+            </motion.h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {collections.map((collection) => (
+                <motion.div
+                  key={collection.id}
+                  variants={item}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link href={`/collections/${collection.id}/catalog`}>
+                    <div className="relative h-96 group overflow-hidden rounded-lg shadow-lg">
+                      <Image
+                        src={collection.image}
+                        alt={collection.name}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        className="transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 transition-opacity group-hover:opacity-90" />
+                      <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                        <h2 className="text-2xl font-bold mb-2">{collection.name}</h2>
+                        <p className="text-sm opacity-90">{collection.description}</p>
                       </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
-        </PageTransition>
-        <CollectionsWrapper />
+          </div>
+        </motion.div>
+      </PageTransition>
     </Suspense>
   );
 }

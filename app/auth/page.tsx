@@ -220,7 +220,6 @@ export default function AuthPage() {
           )}
         </div>
       </div>
-      <AuthWrapper />
     </Suspense>
   );
 }
