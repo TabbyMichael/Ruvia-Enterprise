@@ -7,13 +7,15 @@ import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import GoogleButton from 'react-google-button';
 import { FaPhone } from 'react-icons/fa';
-import { useSearchParams } from 'next/navigation';
 
 type AuthMode = 'signIn' | 'signUp' | 'phone';
 
-export default function AuthContent() {
-  const searchParams = useSearchParams();
-  const [authMode, setAuthMode] = useState<AuthMode>('signIn');
+interface AuthContentProps {
+  initialMode: AuthMode | null;
+}
+
+export default function AuthContent({ initialMode }: AuthContentProps) {
+  const [authMode, setAuthMode] = useState<AuthMode>(initialMode || 'signIn');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

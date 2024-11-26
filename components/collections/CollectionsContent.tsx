@@ -8,7 +8,10 @@ import { useAsync } from '@/hooks/useAsync';
 import { useLoadingState } from '@/hooks/useLoadingState';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { PageTransition } from '@/components/ui/animations/PageTransition';
-import { useSearchParams } from 'next/navigation';
+
+interface CollectionsContentProps {
+  initialCategory: string | null;
+}
 
 const container = {
   hidden: { opacity: 0 },
@@ -25,9 +28,8 @@ const item = {
   show: { opacity: 1, y: 0 }
 };
 
-export default function CollectionsContent() {
-  const searchParams = useSearchParams();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(searchParams.get('category'));
+export default function CollectionsContent({ initialCategory }: CollectionsContentProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory);
   const { data: collections, error, execute } = useAsync<any[]>();
   const { isLoading, startLoading, stopLoading } = useLoadingState();
 
