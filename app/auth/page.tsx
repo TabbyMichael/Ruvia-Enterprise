@@ -19,7 +19,8 @@ const AuthWrapper = dynamic(
   { ssr: false }
 );
 
-export default function AuthPage() {
+// Client component for auth form
+function AuthContent() {
   const [authMode, setAuthMode] = useState<AuthMode>('signIn');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +53,7 @@ export default function AuthPage() {
   };
 
   return (
-    <Suspense fallback={<LoadingSpinner size="large" />}>
+    <>
       <AuthWrapper />
       {isLoading && <LoadingSpinner size="large" />}
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
@@ -156,72 +157,89 @@ export default function AuthPage() {
                 <div>
                   <button
                     type="submit"
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
                     {authMode === 'signIn' ? 'Sign In' : 'Sign Up'}
                   </button>
                 </div>
+
+                <div className="mt-6">
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    <div>
+                      <GoogleButton
+                        onClick={() => console.log('Google sign-in')}
+                        style={{ width: '100%', borderRadius: '0.375rem' }}
+                      />
+                    </div>
+                    <button
+                      onClick={() => setAuthMode('phone')}
+                      className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                    >
+                      <FaPhone className="h-5 w-5 text-gray-400" />
+                      <span className="ml-2">Phone</span>
+                    </button>
+                  </div>
+                </div>
               </form>
-
-              <div className="mt-6">
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">
-                      Or continue with
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  <GoogleButton 
-                    onClick={() => console.log('Google sign in')}
-                    style={{ width: '100%', borderRadius: '0.5rem' }}
-                  />
-                  <button
-                    onClick={() => setAuthMode('phone')}
-                    className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center"
-                  >
-                    <FaPhone className="mr-2" /> Sign in with Phone
-                  </button>
-                </div>
-              </div>
             </>
           ) : (
-            <div>
-              <button 
-                onClick={() => setAuthMode('signIn')}
-                className="mb-4 text-blue-600 hover:text-blue-800 flex items-center"
-              >
-                ← Back to Sign In
-              </button>
-              <h2 className="text-2xl font-bold mb-6 text-center">Phone Authentication</h2>
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                // Navigate to verification page
-                window.location.href = '/auth/verify';
-              }} className="space-y-5">
-                <div className="w-full">
+            <>
+              <div>
+                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                  Sign in with Phone
+                </h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                  Or{' '}
+                  <button
+                    onClick={() => setAuthMode('signIn')}
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
+                    sign in with email
+                  </button>
+                </p>
+              </div>
+
+              <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <div>
                   <PhoneInput
                     defaultCountry="us"
                     value={phoneNumber}
                     onChange={(phone) => setPhoneNumber(phone)}
-                    className="w-full h-12"
+                    className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
-                >
-                  Send OTP
-                </button>
+
+                <div>
+                  <button
+                    type="submit"
+                    className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Continue with Phone
+                  </button>
+                </div>
               </form>
-            </div>
+            </>
           )}
         </div>
       </div>
+    </>
+  );
+}
+
+// Main page component
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner size="large" />}>
+      <AuthContent />
     </Suspense>
   );
 }
