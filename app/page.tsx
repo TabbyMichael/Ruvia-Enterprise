@@ -1,9 +1,28 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PageTransition } from '@/components/ui/animations/PageTransition';
 import { FadeIn } from '@/components/ui/animations/FadeIn';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Initial loading effect with 2 second duration
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingSpinner size="large" />;
+  }
+
   return (
     <PageTransition>
       <main className="flex min-h-screen flex-col">
