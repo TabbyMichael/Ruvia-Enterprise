@@ -34,7 +34,8 @@ const CollectionsWrapper = dynamic(
   { ssr: false }
 );
 
-export default function CollectionsPage() {
+// Separate client component for collections content
+function CollectionsContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { data: collections, error, execute } = useAsync<any[]>();
   const { isLoading, startLoading, stopLoading } = useLoadingState();
@@ -96,7 +97,7 @@ export default function CollectionsPage() {
   };
 
   return (
-    <Suspense fallback={<LoadingSpinner size="large" />}>
+    <>
       <CollectionsWrapper />
       <PageTransition>
         <motion.div variants={container} initial="hidden" animate="show">
@@ -139,6 +140,15 @@ export default function CollectionsPage() {
           </div>
         </motion.div>
       </PageTransition>
+    </>
+  );
+}
+
+// Main page component
+export default function CollectionsPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner size="large" />}>
+      <CollectionsContent />
     </Suspense>
   );
 }
