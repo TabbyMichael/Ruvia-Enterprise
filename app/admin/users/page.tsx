@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { getAllUsers } from '@/lib/firestore';
+import { getAllUsers, deleteUser } from '@/lib/firestore';
 import { UserProfile } from '@/types/firestore';
 import {
   PencilIcon,
@@ -10,22 +10,39 @@ import {
   ArrowUpIcon,
   ArrowDownIcon,
   MagnifyingGlassIcon,
+  PlusIcon,
+  UserIcon,
+  XMarkIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
+import UserForm from '@/components/admin/UserForm';
 
 export default function UsersManagement() {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<keyof UserProfile>('displayName');
+  const [sortField, setSortField] = useState<keyof UserProfile>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [selectedRole, setSelectedRole] = useState('all');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
+  const [editUser, setEditUser] = useState<UserProfile | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const usersData = await getAllUsers();
         setUsers(usersData);
       } catch (error) {
+        setError('Failed to fetch users. Please try again.');
         console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -35,7 +52,7 @@ export default function UsersManagement() {
   const filteredUsers = users
     .filter((user) => {
       const matchesSearch =
-        user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesRole = selectedRole === 'all' || user.role === selectedRole;
       return matchesSearch && matchesRole;
@@ -58,187 +75,214 @@ export default function UsersManagement() {
     }
   };
 
-  return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-2xl font-semibold text-gray-900">Users Management</h1>
-          <p className="mt-2 text-sm text-gray-700">
-            A list of all users in your account including their name, email, role and status.
-          </p>
-        </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
-          >
-            Add user
-          </button>
-        </div>
-      </div>
+  const handleDeleteUser = async (id: string) => {
+    setDeleteUserId(id);
+  };
 
-      <div className="mt-8 flex flex-col">
-        <div className="mb-4 flex flex-wrap gap-4">
-          <div className="relative mt-2 flex-1 sm:mt-0">
+  const confirmDelete = async () => {
+    if (!deleteUserId) return;
+    
+    setLoading(true);
+    setError(null);
+    try {
+      await deleteUser(deleteUserId);
+      setUsers(users.filter(user => user.id !== deleteUserId));
+      setSuccess('User deleted successfully');
+      setDeleteUserId(null);
+    } catch (error) {
+      setError('Failed to delete user. Please try again.');
+      console.error('Error deleting user:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteUserId(null);
+  };
+
+  const handleEditUser = (user: UserProfile) => {
+    setEditUser(user);
+  };
+
+  const handleUserSubmit = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const usersData = await getAllUsers();
+      setUsers(usersData);
+      setSuccess('User updated successfully');
+    } catch (error) {
+      setError('Failed to refresh users. Please reload the page.');
+      console.error('Error fetching users:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex-1 min-w-0 flex flex-col bg-white">
+      {/* Header */}
+      <div className="flex-shrink-0 border-b border-gray-200 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg font-medium leading-6 text-gray-900">Users</h1>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <PlusIcon className="h-5 w-5 mr-1" />
+              Add User
+            </button>
+          </div>
+        </div>
+        <div className="mt-4">
+          {error && (
+            <div className="rounded-md bg-red-50 p-4 mb-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <XMarkIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">{error}</h3>
+                </div>
+              </div>
+            </div>
+          )}
+          {success && (
+            <div className="rounded-md bg-green-50 p-4 mb-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-green-800">{success}</h3>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="relative rounded-md shadow-sm">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+            </div>
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Search users..."
-              className="block w-full rounded border-gray-300 py-2.5 pl-4 pr-10 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </div>
-          </div>
-          <div className="mt-4 flex space-x-2 sm:ml-4 sm:mt-0">
-            <button
-              onClick={() => setSelectedRole('all')}
-              className={`rounded border px-4 py-2.5 text-sm font-medium shadow-sm focus:outline-none ${
-                selectedRole === 'all'
-                  ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
-                  : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              All Roles
-            </button>
-            <button
-              onClick={() => setSelectedRole('admin')}
-              className={`rounded border px-4 py-2.5 text-sm font-medium shadow-sm focus:outline-none ${
-                selectedRole === 'admin'
-                  ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
-                  : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Admin
-            </button>
-            <button
-              onClick={() => setSelectedRole('user')}
-              className={`rounded border px-4 py-2.5 text-sm font-medium shadow-sm focus:outline-none ${
-                selectedRole === 'user'
-                  ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
-                  : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              User
-            </button>
-          </div>
-        </div>
-
-        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      <button
-                        onClick={() => handleSort('displayName')}
-                        className="group inline-flex"
-                      >
-                        Name
-                        <span className="ml-2 flex-none rounded text-gray-400">
-                          {sortField === 'displayName' ? (
-                            sortDirection === 'asc' ? (
-                              <ArrowUpIcon className="h-4 w-4" />
-                            ) : (
-                              <ArrowDownIcon className="h-4 w-4" />
-                            )
-                          ) : null}
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      <button
-                        onClick={() => handleSort('email')}
-                        className="group inline-flex"
-                      >
-                        Email
-                        <span className="ml-2 flex-none rounded text-gray-400">
-                          {sortField === 'email' ? (
-                            sortDirection === 'asc' ? (
-                              <ArrowUpIcon className="h-4 w-4" />
-                            ) : (
-                              <ArrowDownIcon className="h-4 w-4" />
-                            )
-                          ) : null}
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Role
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                    >
-                      <span className="sr-only">Actions</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {filteredUsers.map((user) => (
-                    <tr key={user.id}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        <div className="flex items-center">
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}`}
-                            alt=""
-                          />
-                          <span className="ml-2">{user.displayName}</span>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {user.email}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                          user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
-                        }`}>
-                          {user.role || 'user'}
-                        </span>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                          Active
-                        </span>
-                      </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <button
-                          className="text-blue-600 hover:text-blue-900 mr-4"
-                        >
-                          <PencilIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Users list */}
+      <div className="flex-1 overflow-y-auto p-4 sm:px-6 lg:px-8">
+        {loading ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredUsers.map((user) => (
+              <div key={user.id} className="relative group bg-white border rounded-lg shadow-sm overflow-hidden">
+                {/* User avatar */}
+                <div className="p-4">
+                  <div className="flex items-center justify-center">
+                    {user.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        alt={user.name}
+                        className="h-20 w-20 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center">
+                        <UserIcon className="h-12 w-12 text-gray-400" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* User details */}
+                <div className="flex flex-col p-4 pt-0 text-center">
+                  <h3 className="text-sm font-medium text-gray-900">{user.name}</h3>
+                  <p className="mt-1 text-sm text-gray-500">{user.email}</p>
+                  <p className="mt-1 text-xs text-gray-500">Role: {user.role}</p>
+                  <div className="mt-4 flex space-x-2">
+                    <button
+                      onClick={() => handleEditUser(user)}
+                      className="flex-1 rounded-md border border-transparent bg-blue-100 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-blue-200"
+                    >
+                      <PencilIcon className="h-4 w-4 inline-block mr-1" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="flex-1 rounded-md border border-transparent bg-red-100 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-200"
+                    >
+                      <TrashIcon className="h-4 w-4 inline-block mr-1" />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Add/Edit User Modal */}
+      {(isAddModalOpen || editUser) && (
+        <UserForm
+          onClose={() => {
+            setIsAddModalOpen(false);
+            setEditUser(null);
+          }}
+          onSubmit={handleUserSubmit}
+          user={editUser || undefined}
+          mode={editUser ? 'edit' : 'create'}
+        />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteUserId && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              <div className="sm:flex sm:items-start">
+                <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                </div>
+                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <h3 className="text-base font-semibold leading-6 text-gray-900">Delete User</h3>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Are you sure you want to delete this user? This action cannot be undone.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={confirmDelete}
+                  className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                >
+                  {loading ? 'Deleting...' : 'Delete'}
+                </button>
+                <button
+                  type="button"
+                  onClick={cancelDelete}
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

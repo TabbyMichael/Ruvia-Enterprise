@@ -9,10 +9,11 @@ import { Timestamp } from 'firebase/firestore';
 
 interface ProductFormProps {
   onClose: () => void;
+  onSubmit: () => void;
   onSuccess: () => void;
 }
 
-export default function ProductForm({ onClose, onSuccess }: ProductFormProps) {
+export default function ProductForm({ onClose, onSubmit, onSuccess }: ProductFormProps) {
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
