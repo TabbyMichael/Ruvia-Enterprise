@@ -13,6 +13,7 @@ export interface UserProfile {
   displayName: string;
   email: string;
   phoneNumber: string;
+  photoURL?: string;  // Optional field for user's photo URL
   role: 'customer' | 'admin';
   createdAt: Timestamp;
   updatedAt: Timestamp;
