@@ -25,7 +25,7 @@ export default function UserForm({ onClose, onSubmit, user, mode = 'create' }: U
     const userData: Partial<UserProfile> = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
-      role: formData.get('role') as string,
+      role: formData.get('role') as 'user' | 'admin',
     };
 
     try {
