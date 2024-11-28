@@ -105,7 +105,12 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchProducts = async () => {
       const fetchedProducts = await getAllProducts();
-      setProducts(fetchedProducts);
+      // Ensure each product has an id
+      const productsWithId = fetchedProducts.map(product => ({
+        ...product,
+        id: product.id || ''  // Provide a default empty string if id is undefined
+      }));
+      setProducts(productsWithId);
     };
     fetchProducts();
   }, []);
