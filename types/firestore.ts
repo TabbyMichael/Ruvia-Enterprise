@@ -19,13 +19,11 @@ export interface UserProfile {
 }
 
 export interface ProductStock {
-  [size: string]: {
-    [color: string]: number;
-  };
+  [color: string]: number;
 }
 
 export interface Product {
-  id?: string;
+  id?: string;  // Optional since it's added after fetching from Firestore
   name: string;
   description: string;
   price: number;
@@ -36,6 +34,13 @@ export interface Product {
   stock: ProductStock;
   createdAt: Timestamp;
   updatedAt: Timestamp;
+  // Additional fields
+  sku?: string;
+  brand?: string;
+  tags?: string[];
+  isActive?: boolean;
+  discountPrice?: number;
+  featured?: boolean;
 }
 
 export interface OrderItem {

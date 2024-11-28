@@ -8,7 +8,7 @@ import {
   TruckIcon
 } from '@heroicons/react/24/outline';
 import { getAllProducts } from '@/lib/firestore';
-import { Product } from '@/types/product';
+import { Product, ProductStock } from '@/types/firestore';
 
 const StatCard = ({ title, value, icon: Icon, bgColor }: {
   title: string;
