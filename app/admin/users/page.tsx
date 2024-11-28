@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getAllUsers } from '@/lib/firestore';
-import { UserProfile } from '@/types/user';
+import { UserProfile } from '@/types/firestore';
 import {
   PencilIcon,
   TrashIcon,
