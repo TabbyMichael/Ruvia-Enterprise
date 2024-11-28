@@ -9,6 +9,7 @@ export interface ShippingAddress {
 }
 
 export interface UserProfile {
+  id?: string;  // Optional since it's added after fetching from Firestore
   displayName: string;
   email: string;
   phoneNumber: string;
