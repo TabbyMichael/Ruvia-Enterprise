@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { Product } from '@/types/product';
+import { Product } from '@/types/firestore';  
 import {
   PencilIcon,
   TrashIcon,
@@ -26,7 +26,11 @@ export default function ProductsManagement() {
   const fetchProducts = async () => {
     try {
       const fetchedProducts = await getAllProducts();
-      setProducts(fetchedProducts);
+      const productsWithId = fetchedProducts.map(product => ({
+        ...product,
+        id: product.id || ''  
+      }));
+      setProducts(productsWithId);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

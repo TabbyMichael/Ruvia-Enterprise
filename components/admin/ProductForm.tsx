@@ -2,9 +2,10 @@
 
 import { useState, useRef } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Product } from '@/types/product';
+import { Product, ProductStock } from '@/types/firestore';
 import { addProduct } from '@/lib/firestore';
 import { uploadImage } from '@/lib/storage';
+import { Timestamp } from 'firebase/firestore';
 
 interface ProductFormProps {
   onClose: () => void;
@@ -36,8 +37,8 @@ export default function ProductForm({ onClose, onSuccess }: ProductFormProps) {
         category: formData.get('category') as string,
         stock: parseInt(formData.get('stock') as string, 10),
         imageUrl,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
       };
 
       await addProduct(productData);
