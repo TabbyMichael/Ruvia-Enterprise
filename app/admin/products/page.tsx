@@ -157,9 +157,9 @@ export default function ProductsManagement() {
                 className="relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
               >
                 <div className="aspect-square overflow-hidden bg-gray-200">
-                  {product.imageUrl ? (
+                  {product.images?.[0] ? (
                     <img
-                      src={product.imageUrl}
+                      src={product.images[0]}
                       alt={product.name}
                       className="h-full w-full object-cover object-center"
                     />

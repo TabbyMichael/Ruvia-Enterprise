@@ -35,8 +35,10 @@ export default function ProductForm({ onClose, onSuccess }: ProductFormProps) {
         description: formData.get('description') as string,
         price: parseFloat(formData.get('price') as string),
         category: formData.get('category') as string,
-        stock: parseInt(formData.get('stock') as string, 10),
-        imageUrl,
+        stock: { default: parseInt(formData.get('stock') as string, 10) } as ProductStock,
+        images: imageUrl ? [imageUrl] : [],
+        sizes: [],
+        colors: [],
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       };
