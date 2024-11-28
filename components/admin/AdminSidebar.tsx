@@ -18,7 +18,7 @@ import { useAuth } from '@/context/AuthContext';
 const AdminSidebar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const pathname = usePathname();
-  const { signOut } = useAuth();
+  const { logout } = useAuth();
 
   const menuItems = [
     { name: 'Dashboard', href: '/admin', icon: HomeIcon },
@@ -78,7 +78,7 @@ const AdminSidebar = () => {
               {darkMode ? 'Light Mode' : 'Dark Mode'}
             </button>
             <button
-              onClick={signOut}
+              onClick={logout}
               className="flex-1 flex items-center px-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50"
             >
               <ArrowLeftOnRectangleIcon className="mr-3 h-6 w-6 text-gray-400" />
