@@ -9,15 +9,13 @@ export interface ShippingAddress {
 }
 
 export interface UserProfile {
-  id?: string;  // Optional since it's added after fetching from Firestore
-  displayName: string;
+  id?: string;
+  name: string;
   email: string;
-  phoneNumber: string;
-  photoURL?: string;  // Optional field for user's photo URL
-  role: 'customer' | 'admin';
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-  shippingAddresses: ShippingAddress[];
+  role: 'admin' | 'user';
+  photoURL?: string;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface ProductStock {
@@ -25,24 +23,15 @@ export interface ProductStock {
 }
 
 export interface Product {
-  id?: string;  // Optional since it's added after fetching from Firestore
+  id?: string;
   name: string;
   description: string;
   price: number;
   images: string[];
   category: string;
-  sizes: string[];
-  colors: string[];
   stock: ProductStock;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-  // Additional fields
-  sku?: string;
-  brand?: string;
-  tags?: string[];
-  isActive?: boolean;
-  discountPrice?: number;
-  featured?: boolean;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface OrderItem {

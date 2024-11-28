@@ -161,6 +161,7 @@ export default function ProductsManagement() {
         <ProductForm
           onClose={() => setIsAddModalOpen(false)}
           onSubmit={fetchProducts}
+          onSuccess={fetchProducts}
         />
       )}
     </div>
