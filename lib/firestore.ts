@@ -63,6 +63,21 @@ export const deleteUser = async (userId: string) => {
   await deleteDoc(userRef);
 };
 
+// Add new user (admin only)
+export const addUser = async (userData: Partial<UserProfile>) => {
+  const usersRef = collection(db, 'users');
+  const timestamp = Timestamp.now();
+  
+  const newUserRef = doc(usersRef);
+  await setDoc(newUserRef, {
+    ...userData,
+    id: newUserRef.id,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    shippingAddresses: []
+  });
+};
+
 // Products Collection Operations
 export const createProduct = async (productData: Partial<Product>) => {
   const productsRef = collection(db, 'products');

@@ -2,20 +2,30 @@
 
 import { useState, useEffect } from 'react';
 
-export type ScreenSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export interface ScreenSize {
+  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  isMobile: boolean;
+}
 
 export const useScreenSize = (): ScreenSize => {
-  const [screenSize, setScreenSize] = useState<ScreenSize>('lg');
+  const [screenSize, setScreenSize] = useState<ScreenSize>({ size: 'lg', isMobile: false });
 
   useEffect(() => {
     function getScreenSize(): ScreenSize {
-      if (typeof window === 'undefined') return 'lg';
-      if (window.innerWidth < 640) return 'xs';
-      if (window.innerWidth < 768) return 'sm';
-      if (window.innerWidth < 1024) return 'md';
-      if (window.innerWidth < 1280) return 'lg';
-      if (window.innerWidth < 1536) return 'xl';
-      return '2xl';
+      if (typeof window === 'undefined') return { size: 'lg', isMobile: false };
+      const width = window.innerWidth;
+      let size: ScreenSize['size'];
+      if (width < 640) size = 'xs';
+      else if (width < 768) size = 'sm';
+      else if (width < 1024) size = 'md';
+      else if (width < 1280) size = 'lg';
+      else if (width < 1536) size = 'xl';
+      else size = '2xl';
+
+      return {
+        size,
+        isMobile: width < 1024 // Consider anything below lg as mobile
+      };
     }
 
     function handleResize() {
