@@ -57,6 +57,12 @@ export const getAllUsers = async () => {
   }));
 };
 
+// Delete user (admin only)
+export const deleteUser = async (userId: string) => {
+  const userRef = doc(db, 'users', userId);
+  await deleteDoc(userRef);
+};
+
 // Products Collection Operations
 export const createProduct = async (productData: Partial<Product>) => {
   const productsRef = collection(db, 'products');
