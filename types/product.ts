@@ -1,20 +1,25 @@
+import { Timestamp } from 'firebase/firestore';
+
+export interface ProductStock {
+  [color: string]: number;
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
   category: string;
-  stock: number;
-  imageUrl?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  stock: ProductStock;
+  images: string[];
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
   // Additional fields for e-commerce
   sku?: string;
   brand?: string;
   tags?: string[];
   isActive?: boolean;
   discountPrice?: number;
-  variations?: ProductVariation[];
   sizes?: string[];
   colors?: string[];
   featured?: boolean;
