@@ -17,7 +17,7 @@ import {
 export default function UsersManagement() {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<keyof UserProfile>('displayName');
+  const [sortField, setSortField] = useState<keyof UserProfile>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [selectedRole, setSelectedRole] = useState('all');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -42,7 +42,7 @@ export default function UsersManagement() {
   const filteredUsers = users
     .filter((user) => {
       const matchesSearch =
-        user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesRole = selectedRole === 'all' || user.role === selectedRole;
       return matchesSearch && matchesRole;
