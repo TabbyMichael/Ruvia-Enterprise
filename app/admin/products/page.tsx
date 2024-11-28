@@ -175,7 +175,7 @@ export default function ProductsManagement() {
                   <p className="mt-1 text-sm text-gray-500 line-clamp-2">{product.description}</p>
                   <div className="mt-2 flex items-center justify-between">
                     <p className="text-sm font-medium text-gray-900">KSh {product.price.toLocaleString()}</p>
-                    <p className="text-sm text-gray-500">Stock: {product.stock}</p>
+                    <p className="text-sm text-gray-500">Stock: {Object.values(product.stock).reduce((a, b) => a + b, 0)}</p>
                   </div>
                   <div className="mt-4 flex space-x-2">
                     <button
