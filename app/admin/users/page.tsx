@@ -117,7 +117,7 @@ export default function UsersManagement() {
                     {user.photoURL ? (
                       <img
                         src={user.photoURL}
-                        alt={user.displayName}
+                        alt={user.name}
                         className="h-20 w-20 rounded-full object-cover"
                       />
                     ) : (
@@ -130,7 +130,7 @@ export default function UsersManagement() {
 
                 {/* User details */}
                 <div className="flex flex-col p-4 pt-0 text-center">
-                  <h3 className="text-sm font-medium text-gray-900">{user.displayName}</h3>
+                  <h3 className="text-sm font-medium text-gray-900">{user.name}</h3>
                   <p className="mt-1 text-sm text-gray-500">{user.email}</p>
                   <p className="mt-1 text-xs text-gray-500">Role: {user.role}</p>
                   <div className="mt-4 flex space-x-2">
