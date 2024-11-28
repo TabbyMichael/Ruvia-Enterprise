@@ -16,6 +16,7 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
+import UserForm from '@/components/admin/UserForm';
 
 export default function UsersManagement() {
   const [users, setUsers] = useState<UserProfile[]>([]);
