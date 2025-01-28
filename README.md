@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Ruvia Enterprise Logo](/assets/1.png)
+![Ruvia Enterprise Logo](public/assets/1.png)
 
 A modern, responsive e-commerce platform for high-quality uniforms, built with Next.js 14 and Tailwind CSS.
 
@@ -19,7 +19,7 @@ A modern, responsive e-commerce platform for high-quality uniforms, built with N
 
 Ruvia Enterprise is your premier destination for high-quality uniforms, serving educational institutions, security services, and sports organizations. Our platform combines elegant design with powerful e-commerce functionality to deliver an exceptional uniform shopping experience.
 
-![Ruvia Enterprise Homepage](/assets/2.png)
+![Ruvia Enterprise Homepage](/public/assets/2.png)
 
 ## ✨ Features
 
@@ -29,7 +29,7 @@ Ruvia Enterprise is your premier destination for high-quality uniforms, serving 
 - Real-time product previews
 - Dark/Light mode support
 
-[placeholder-for-responsive-design-showcase]
+[Ruvia Enterprise Homepage](/public/assets/3.png)
 
 ### 🛠️ Core Functionality
 - Interactive product viewer with 360° rotation
@@ -39,7 +39,7 @@ Ruvia Enterprise is your premier destination for high-quality uniforms, serving 
 - Smart account management for institutions
 - Advanced order tracking system
 
-[placeholder-for-features-showcase]
+[Ruvia Enterprise Homepage](/public/assets/4.png)
 
 ## 🚀 Tech Stack
 
@@ -143,6 +143,8 @@ Having trouble? Got questions?
 - Check our [FAQ page](https://ruviaenterprise.com/faq)
 
 ---
+
+[Ruvia Enterprise Homepage](/public/assets/5.png)
 
 <div align="center">
 Made with ❤️ by the Ruvia Enterprise Team
