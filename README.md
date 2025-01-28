@@ -29,7 +29,7 @@ Ruvia Enterprise is your premier destination for high-quality uniforms, serving 
 - Real-time product previews
 - Dark/Light mode support
 
-[Ruvia Enterprise Homepage](/public/assets/3.png)
+![Ruvia Enterprise Homepage](/public/assets/3.png)
 
 ### 🛠️ Core Functionality
 - Interactive product viewer with 360° rotation
@@ -39,7 +39,7 @@ Ruvia Enterprise is your premier destination for high-quality uniforms, serving 
 - Smart account management for institutions
 - Advanced order tracking system
 
-[Ruvia Enterprise Homepage](/public/assets/4.png)
+![Ruvia Enterprise Homepage](/public/assets/4.png)
 
 ## 🚀 Tech Stack
 
@@ -115,7 +115,7 @@ We love contributions! Here's how you can help:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-[placeholder-for-contribution-workflow]
+![Ruvia Enterprise Homepage](/public/assets/5.png)
 
 ## 📝 Development Guidelines
 
@@ -144,7 +144,7 @@ Having trouble? Got questions?
 
 ---
 
-[Ruvia Enterprise Homepage](/public/assets/5.png)
+
 
 <div align="center">
 Made with ❤️ by the Ruvia Enterprise Team
